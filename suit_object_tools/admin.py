@@ -1,6 +1,6 @@
 import functools
 from django import http
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 
 class SuitObjectActionsMixin(object):
@@ -12,10 +12,10 @@ class SuitObjectActionsMixin(object):
         """
         urls = super(SuitObjectActionsMixin, self).get_urls()
         for object_action in self.get_suit_object_actions():
-            urls = patterns('', 
+            urls = [ 
                 url(r'^(?P<obj_pk>\d+)/{url}/$'.format(url=object_action['action_string']),
                     self.view_wrapper(object_action['function'])),
-            ) + urls
+            ] + urls
         return urls
 
     def get_suit_object_actions(self):
